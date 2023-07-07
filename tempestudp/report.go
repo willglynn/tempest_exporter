@@ -144,13 +144,16 @@ func (r TempestObservationReport) Metrics() []prometheus.Metric {
 			continue
 		}
 
+		wetBulb := wetBulbTemperatureC(ob[7], ob[8], ob[6])
+
 		metrics := []prometheus.Metric{
 			prometheus.MustNewConstMetric(tempest.Wind, prometheus.GaugeValue, ob[1], r.SerialNumber, "lull"),
 			prometheus.MustNewConstMetric(tempest.Wind, prometheus.GaugeValue, ob[2], r.SerialNumber, "avg"),
 			prometheus.MustNewConstMetric(tempest.Wind, prometheus.GaugeValue, ob[3], r.SerialNumber, "gust"),
 			prometheus.MustNewConstMetric(tempest.WindDirection, prometheus.GaugeValue, ob[4], r.SerialNumber),
 			prometheus.MustNewConstMetric(tempest.Pressure, prometheus.GaugeValue, ob[6]*100, r.SerialNumber),
-			prometheus.MustNewConstMetric(tempest.Temperature, prometheus.GaugeValue, ob[7], r.SerialNumber),
+			prometheus.MustNewConstMetric(tempest.Temperature, prometheus.GaugeValue, ob[7], r.SerialNumber, "air"),
+			prometheus.MustNewConstMetric(tempest.Temperature, prometheus.GaugeValue, wetBulb, r.SerialNumber, "wetbulb"),
 			prometheus.MustNewConstMetric(tempest.Humidity, prometheus.GaugeValue, ob[8], r.SerialNumber),
 			prometheus.MustNewConstMetric(tempest.Illuminance, prometheus.GaugeValue, ob[9], r.SerialNumber),
 			prometheus.MustNewConstMetric(tempest.UV, prometheus.GaugeValue, ob[10], r.SerialNumber),

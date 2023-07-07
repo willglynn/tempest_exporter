@@ -20,7 +20,7 @@ var (
 	Irradiance     *prometheus.Desc
 	RainTotal      *prometheus.Desc
 	Pressure       *prometheus.Desc
-	Temperature    *prometheus.Desc
+	Temperature    *prometheus.Desc // "air", "wetbulb"
 	Humidity       *prometheus.Desc
 )
 
@@ -42,7 +42,7 @@ func init() {
 	Irradiance = prometheus.NewDesc("tempest_irradiance_w_m2", "The total solar irradiance, expressed in watts per square meter", []string{"instance"}, nil)
 	RainTotal = prometheus.NewDesc("tempest_rainfall_total", "The amount of accumulated rain", []string{"instance"}, nil)
 	Pressure = prometheus.NewDesc("tempest_pressure_pa", "A barometric pressure measurement", []string{"instance"}, nil)
-	Temperature = prometheus.NewDesc("tempest_temperature_c", "A temperature measurement", []string{"instance"}, nil)
+	Temperature = prometheus.NewDesc("tempest_temperature_c", "A temperature measurement", []string{"instance", "kind"}, nil)
 	Humidity = prometheus.NewDesc("tempest_humidity_percent", "A relative humidity measurement", []string{"instance"}, nil)
 
 	// todo: lightning

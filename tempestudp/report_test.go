@@ -1,6 +1,7 @@
 package tempestudp
 
 import (
+	"math"
 	"reflect"
 	"strings"
 	"testing"
@@ -63,8 +64,14 @@ func Test_tempestObservationReport_Metrics(t *testing.T) {
 					value: 98781,
 				},
 				{
-					desc:  tempest.Temperature,
-					value: 19.0,
+					desc:   tempest.Temperature,
+					value:  19.0,
+					labels: map[string]string{"kind": "air"},
+				},
+				{
+					desc:   tempest.Temperature,
+					value:  15.26,
+					labels: map[string]string{"kind": "wetbulb"},
 				},
 				{
 					desc:  tempest.Humidity,
@@ -207,7 +214,7 @@ func metricsTest(t *testing.T, testcases []metricsTestcase) {
 
 			for i, gm := range gotSM {
 				wm := tc.wantMetrics[i]
-				if gm.value != wm.value {
+				if math.Abs(gm.value-wm.value) > 0.01 {
 					t.Errorf("%s\n  value = %v, want %v", gotNames[i], gm.value, wm.value)
 				}
 				if !reflect.DeepEqual(gm.labels, wm.labels) {
