@@ -11,5 +11,4 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s
 
 FROM --platform=${TARGETPLATFORM:-linux/amd64} scratch
 COPY --from=builder /app/tempest_exporter /tempest_exporter
-EXPOSE 2020
 ENTRYPOINT ["/tempest_exporter"]
